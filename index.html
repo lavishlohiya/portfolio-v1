@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="minimal personal website" />
+    <title>lavish lohiya</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="background-symbols" aria-hidden="true"></div>
+
+    <main class="page">
+      <section class="hero">
+        <h1>lavish lohiya</h1>
+        <p class="hero__location">noida, in</p>
+
+        <p class="visit-counter" aria-label="925 visitors active badge">
+          <span class="visit-counter__status" aria-hidden="true"></span>
+          <span class="visit-counter__value">925 visitors</span>
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>skills</h2>
+        <p class="stack">
+          <span>backend: Nodejs, Express</span>
+          <span>frontend: Reactjs, Html, CSS, Tailwind CSS</span>
+          <span>database: PostgreSql, MongoDB, Redis</span>
+          <span>tools: Git, Github, Docker, Linux, Postman</span>
+          <span>languages: C, C++, Python, Javascript, Typescript</span>
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>currently</h2>
+        <p class="stack">
+          <span
+            >working on
+            <a href="https://github.com/lavishlohiya/Tempus">tempus</a>.</span
+          >
+          <span
+            >1200 elo at <a href="https://www.chess.com/">chess.com</a>.</span
+          >
+          <span>doing calisthenics &amp; learning 日本語.</span>
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>live projects</h2>
+        <p class="stack">
+          <span>
+            <a href="https://freecommissioncalculator.com/"
+              >freecommissioncalculator.com</a
+            >, commission calculations in 5+ currencies, with 1,000+ monthly
+            users.
+          </span>
+          <span>
+            <a href="https://pic2device.com/">pic2device.com</a>, fast
+            screenshot sharing across devices via QR, with 500+ monthly users.
+          </span>
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>projects</h2>
+        <p class="stack">
+          <span>
+            <a href="https://github.com/lavishlohiya/writeflow">writeflow</a>,
+            full-stack blogging application.
+          </span>
+          <span>
+            <a href="https://github.com/lavishlohiya/url-shortner"
+              >url-shortner</a
+            >, REST API for shortening URLs.
+          </span>
+          <span>
+            <a href="https://github.com/lavishlohiya/personal-finance-tracker"
+              >personal-finance-tracker</a
+            >, backend REST API for personal finance.
+          </span>
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>contributed to</h2>
+        <p class="stack">
+          <span
+            ><a href="https://github.com/Checkora/Checkora">checkora</a>,
+            <a href="https://github.com/aayushraj1010/med-genie">med-genie</a>,
+            <a href="https://github.com/vijaypatil477/Debugra">debugra</a> &
+            many more</span
+          >
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>volunteer at</h2>
+        <p class="stack">
+          <span
+            ><a
+              href="https://www.linkedin.com/company/little-seeds-ngo/posts/?feedView=all"
+              >little seeds ngo</a
+            >,
+            <a href="https://www.linkedin.com/company/teamaashraya/"
+              >prashraya welfare foundation</a
+            >,</span
+          >
+          <span>ummed sanstha</span>
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>links</h2>
+        <nav class="links">
+          <a href="https://github.com/lavishlohiya">github</a>
+          <a href="https://twitter.com/lavish_lohiya">X(twitter)</a>
+          <a href="mailto:lavishlohiya1005@gmail.com">email</a>
+        </nav>
+      </section>
+    </main>
+    <script>
+      const symbols = [
+        "#",
+        "%",
+        "/",
+        "$",
+        "8",
+        "^",
+        "x",
+        "+",
+        "=",
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        ".",
+        "~",
+        "\\",
+        "!",
+        "{",
+        "}",
+      ];
+      const background = document.querySelector(".background-symbols");
+      let activeCharacter = null;
+      let columnCount = 0;
+      let rowHeight = 0;
+      let horizontalPadding = 0;
+      let verticalPadding = 0;
+
+      function renderSymbols() {
+        const compact = window.innerWidth <= 520;
+        const columns = Math.ceil(window.innerWidth / (compact ? 44 : 56));
+        const cssRowHeight = compact ? "2.15rem" : "2.4rem";
+        const rows =
+          Math.ceil(
+            document.documentElement.scrollHeight / (compact ? 30 : 34),
+          ) + 2;
+
+        columnCount = columns;
+        background.style.setProperty("--bg-columns", String(columns));
+        background.style.setProperty("--bg-row-height", cssRowHeight);
+        background.replaceChildren();
+
+        for (let index = 0; index < columns * rows; index += 1) {
+          const character = document.createElement("span");
+          character.textContent =
+            symbols[
+              (index * 7 + Math.floor(index / columns) * 3) % symbols.length
+            ];
+          background.appendChild(character);
+        }
+
+        const computedBackground = window.getComputedStyle(background);
+        const firstCharacter = background.firstElementChild;
+        rowHeight = firstCharacter
+          ? firstCharacter.getBoundingClientRect().height
+          : 0;
+        horizontalPadding = parseFloat(computedBackground.paddingLeft) || 0;
+        verticalPadding = parseFloat(computedBackground.paddingTop) || 0;
+        clearActiveCharacter();
+      }
+
+      function setActiveCharacter(event) {
+        if (!columnCount || !rowHeight) {
+          return;
+        }
+
+        const bounds = background.getBoundingClientRect();
+        const usableWidth = bounds.width - horizontalPadding * 2;
+        const columnWidth = usableWidth / columnCount;
+        const x = event.clientX - bounds.left - horizontalPadding;
+        const y = event.clientY - bounds.top - verticalPadding;
+
+        if (
+          x < 0 ||
+          y < 0 ||
+          x > usableWidth ||
+          y > bounds.height - verticalPadding * 2
+        ) {
+          clearActiveCharacter();
+          return;
+        }
+
+        const columnIndex = Math.min(
+          columnCount - 1,
+          Math.max(0, Math.floor(x / columnWidth)),
+        );
+        const rowIndex = Math.max(0, Math.floor(y / rowHeight));
+        const hovered =
+          background.children[rowIndex * columnCount + columnIndex];
+
+        if (hovered === activeCharacter) {
+          return;
+        }
+
+        if (activeCharacter) {
+          activeCharacter.classList.remove("is-active");
+        }
+
+        activeCharacter =
+          hovered && hovered.parentElement === background ? hovered : null;
+
+        if (activeCharacter) {
+          activeCharacter.classList.add("is-active");
+        }
+      }
+
+      function clearActiveCharacter() {
+        if (!activeCharacter) {
+          return;
+        }
+
+        activeCharacter.classList.remove("is-active");
+        activeCharacter = null;
+      }
+
+      renderSymbols();
+      window.addEventListener("resize", renderSymbols);
+      document.addEventListener("mousemove", setActiveCharacter);
+      document.addEventListener("mouseout", (event) => {
+        if (!event.relatedTarget) {
+          clearActiveCharacter();
+        }
+      });
+    </script>
+  </body>
+</html>
