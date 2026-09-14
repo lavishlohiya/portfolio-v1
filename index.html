@@ -6,6 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Lavish Lohiya - Minimal Personal Portfolio & Developer Website" />
   <title>lavish lohiya</title>
+
+  <!-- Prevent FOUC / Theme Flash on Reload -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("theme");
+        var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      } catch (e) { }
+    })();
+  </script>
+
+  <!-- Optimized Google Fonts Loading with display=swap (Prevents FOUT/FOIT text disappearing & size shift) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
 
@@ -14,7 +31,9 @@
   <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme">
     <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="4"></circle>
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+      <path
+        d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41">
+      </path>
     </svg>
     <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
@@ -27,18 +46,27 @@
   <main class="page">
     <header class="profile-header">
       <div class="profile-banner-container">
-        <img src="./banner.png" alt="Crown Profile Banner" class="profile-banner" />
+        <img src="./banner.png" alt="Crown Profile Banner" class="profile-banner" fetchpriority="high"
+          decoding="async" />
       </div>
 
       <div class="profile-info-row">
         <div class="profile-avatar-wrapper">
-          <img src="./avatar.png" alt="lavish lohiya profile picture" class="profile-avatar" />
+          <img src="./avatar.jpg" alt="lavish lohiya profile picture" class="profile-avatar" fetchpriority="high"
+            decoding="async" />
         </div>
       </div>
 
       <div class="profile-meta">
         <div class="profile-title-row">
-          <h1 class="profile-name">lavish lohiya</h1>
+          <h1 class="profile-name">
+            <span>lavish lohiya</span>
+            <svg class="verified-badge" viewBox="0 0 24 24" aria-label="verified" title="Verified">
+              <path fill="#eab308"
+                d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.79-3.999-4-3.999-.495 0-.965.084-1.4.238C14.55 2.465 13.18 1.5 11.6 1.5c-1.58 0-2.95.875-3.6 2.148-.435-.154-.905-.238-1.4-.238-2.21 0-4 1.79-4 4 0 .495.084.965.238 1.4C1.565 9.55.6 10.92.6 12.5c0 1.58.875 2.95 2.148 3.6-.154.435-.238.905-.238 1.4 0 2.21 1.79 4 4 4 .495 0 .965-.084 1.4-.238.65 1.273 2.02 2.148 3.6 2.148 1.58 0 2.95-.875 3.6-2.148.435.154.905.238 1.4.238 2.21 0 4-1.79 4-4 0-.495-.084-.965-.238-1.4 1.273-.65 2.148-2.02 2.148-3.6z" />
+              <path fill="#000000" d="M9.86 16.52l-3.38-3.38 1.41-1.41 1.97 1.97 5.97-5.97 1.41 1.41-7.38 7.38z" />
+            </svg>
+          </h1>
           <span class="hero__location">noida, in</span>
         </div>
         <p class="profile-role">backend software dev.</p>
@@ -87,9 +115,9 @@
       <h2>about me</h2>
       <p class="about-text">
         I build APIs, developer tools, and whatever I'm curious about.
-        Minimal by nature, obsessive about the details.
+        Minimal by nature.
         <br /><br />
-        Outside the terminal: chess, calisthenics, gaming, manhwa, sports &amp; 日本語.
+        Outside the terminal: chess, gaming, manhwa, sports &amp; 日本語.
       </p>
     </section>
 
@@ -180,8 +208,7 @@
       <p>
         <a href="https://github.com/Checkora/Checkora" target="_blank" rel="noopener noreferrer">checkora</a>,
         <a href="https://github.com/aayushraj1010/med-genie" target="_blank" rel="noopener noreferrer">med-genie</a>,
-        <a href="https://github.com/vijaypatil477/Debugra" target="_blank" rel="noopener noreferrer">debugra</a> &amp;
-        many more.
+        <a href="https://github.com/vijaypatil477/Debugra" target="_blank" rel="noopener noreferrer">debugra</a>
       </p>
     </section>
 
@@ -195,6 +222,7 @@
         ummed sanstha
       </p>
     </section>
+
   </main>
 
   <script>
@@ -205,22 +233,15 @@
       localStorage.setItem("theme", theme);
     }
 
-    const savedTheme =
-      localStorage.getItem("theme") ||
-      (window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light");
-    setTheme(savedTheme);
-
     if (themeToggle) {
       themeToggle.addEventListener("click", () => {
         const currentTheme =
-          document.documentElement.getAttribute("data-theme");
+          document.documentElement.getAttribute("data-theme") || "light";
         setTheme(currentTheme === "dark" ? "light" : "dark");
       });
     }
 
-    // Dynamic Matrix Background Symbols
+    // High-Performance Dynamic Matrix Background Engine
     const symbols = [
       "#", "%", "/", "$", "8", "^", "x", "+", "=", "0", "1", "2", "3", "4",
       "5", "6", "7", "8", "9", ".", "~", "\\", "!", "{", "}", "<", ">", "*",
@@ -232,56 +253,61 @@
     let rowHeight = 0;
     let horizontalPadding = 0;
     let verticalPadding = 0;
+    let bgBounds = null;
+    let rafId = null;
+
+    function updateBounds() {
+      if (!background) return;
+      bgBounds = background.getBoundingClientRect();
+      const computedBackground = window.getComputedStyle(background);
+      const firstCharacter = background.firstElementChild;
+      rowHeight = firstCharacter ? firstCharacter.getBoundingClientRect().height : 0;
+      horizontalPadding = parseFloat(computedBackground.paddingLeft) || 0;
+      verticalPadding = parseFloat(computedBackground.paddingTop) || 0;
+    }
 
     function renderSymbols() {
+      if (!background) return;
       const compact = window.innerWidth <= 520;
       const columns = Math.ceil(window.innerWidth / (compact ? 20 : 26));
       const cssRowHeight = compact ? "1.15rem" : "1.25rem";
-      const rows =
-        Math.ceil(
-          document.documentElement.scrollHeight / (compact ? 16 : 18),
-        ) + 6;
+      const pageHeight = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+      const rows = Math.ceil(pageHeight / (compact ? 16 : 18)) + 4;
 
       columnCount = columns;
       background.style.setProperty("--bg-columns", String(columns));
       background.style.setProperty("--bg-row-height", cssRowHeight);
-      background.replaceChildren();
 
-      for (let index = 0; index < columns * rows; index += 1) {
+      const fragment = document.createDocumentFragment();
+      const totalSymbols = columns * rows;
+
+      for (let index = 0; index < totalSymbols; index += 1) {
         const character = document.createElement("span");
         character.textContent =
-          symbols[
-          (index * 7 + Math.floor(index / columns) * 3) % symbols.length
-          ];
-        background.appendChild(character);
+          symbols[(index * 7 + Math.floor(index / columns) * 3) % symbols.length];
+        fragment.appendChild(character);
       }
 
-      const computedBackground = window.getComputedStyle(background);
-      const firstCharacter = background.firstElementChild;
-      rowHeight = firstCharacter
-        ? firstCharacter.getBoundingClientRect().height
-        : 0;
-      horizontalPadding = parseFloat(computedBackground.paddingLeft) || 0;
-      verticalPadding = parseFloat(computedBackground.paddingTop) || 0;
+      background.replaceChildren(fragment);
+      updateBounds();
       clearActiveCharacter();
     }
 
     function setActiveCharacter(event) {
-      if (!columnCount || !rowHeight) {
+      if (!columnCount || !rowHeight || !bgBounds) {
         return;
       }
 
-      const bounds = background.getBoundingClientRect();
-      const usableWidth = bounds.width - horizontalPadding * 2;
+      const usableWidth = bgBounds.width - horizontalPadding * 2;
       const columnWidth = usableWidth / columnCount;
-      const x = event.clientX - bounds.left - horizontalPadding;
-      const y = event.clientY - bounds.top - verticalPadding;
+      const x = event.clientX - bgBounds.left - horizontalPadding;
+      const y = event.clientY - bgBounds.top - verticalPadding;
 
       if (
         x < 0 ||
         y < 0 ||
         x > usableWidth ||
-        y > bounds.height - verticalPadding * 2
+        y > bgBounds.height - verticalPadding * 2
       ) {
         clearActiveCharacter();
         return;
@@ -289,11 +315,11 @@
 
       const columnIndex = Math.min(
         columnCount - 1,
-        Math.max(0, Math.floor(x / columnWidth)),
+        Math.max(0, Math.floor(x / columnWidth))
       );
       const rowIndex = Math.max(0, Math.floor(y / rowHeight));
-      const hovered =
-        background.children[rowIndex * columnCount + columnIndex];
+      const targetIndex = rowIndex * columnCount + columnIndex;
+      const hovered = background.children[targetIndex];
 
       if (hovered === activeCharacter) {
         return;
@@ -315,14 +341,22 @@
       if (!activeCharacter) {
         return;
       }
-
       activeCharacter.classList.remove("is-active");
       activeCharacter = null;
     }
 
+    function onMouseMove(event) {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        setActiveCharacter(event);
+        rafId = null;
+      });
+    }
+
     renderSymbols();
     window.addEventListener("resize", renderSymbols);
-    document.addEventListener("mousemove", setActiveCharacter);
+    window.addEventListener("scroll", updateBounds, { passive: true });
+    document.addEventListener("mousemove", onMouseMove, { passive: true });
     document.addEventListener("mouseout", (event) => {
       if (!event.relatedTarget) {
         clearActiveCharacter();
